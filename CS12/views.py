@@ -3,27 +3,20 @@ import os
 
 class FormSubmission(object):
     
-    # 1. The Root Redirect
     @cherrypy.expose
     def index(self):
-        # Redirects localhost:8080/ -> localhost:8080/formsubmission
         raise cherrypy.HTTPRedirect("/formsubmission")
 
-    # 2. The Combined Handler (Form + Submit)
     @cherrypy.expose
     def formsubmission(self, studentno=None, firstname=None, lastname=None, age=None, email=None):
         
-        # SCENARIO A: The user submitted data (POST)
         if cherrypy.request.method == 'POST':
             
-            # 1. Format the data
             data_entry = f"Student No: {studentno} | Name: {firstname} {lastname} | Age: {age} | Email: {email}\n"
             
-            # 2. Save to file (Append mode)
             with open("database.txt", "a") as f:
                 f.write(data_entry)
             
-            # 3. Return Success Page
             return f"""
                 <h1>Submission Successful!</h1>
                 <p>Student No: {studentno}</p>
@@ -35,7 +28,6 @@ class FormSubmission(object):
                 <a href='/viewAllData'>View All Data</a>
             """
         
-        # SCENARIO B: The user is just visiting (GET)
         return """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -75,7 +67,6 @@ class FormSubmission(object):
 </body>
 </html>"""
 
-    # 3. The View Data Handler (Requirement #8)
     @cherrypy.expose
     def viewAllData(self):
         if not os.path.exists("database.txt"):
@@ -84,7 +75,6 @@ class FormSubmission(object):
         with open("database.txt", "r") as f:
             content = f.read()
         
-        # Convert newlines to HTML line breaks
         html_content = content.replace("\n", "<br>")
 
         return f"""
