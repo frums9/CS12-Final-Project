@@ -1,0 +1,81 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: linear-gradient(#C49090, #8A2D3B);
+
+}
+
+fieldset {
+    border: 4px, solid, #BE5B50;
+    border-radius: 2rem;
+    padding: 2rem;
+    width: 22vw;
+    height: 60vh;
+    background-color: #641B2E;
+
+    min-width: 360px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.main {
+    width: 100%;
+    font-size: 1.05rem;
+    font-family: "Libre Baskerville", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+
+}
+
+legend {
+    font-size: 1.1rem;
+    color:#FBDB93;
+    font-family: "Libre Baskerville", serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    background-color: #641B2E;
+    border: 4px, solid, #BE5B50;
+    border-radius: 0.9rem;
+    padding: 0.3em;
+    
+}
+
+.input_field {
+    width: 100%;
+    padding: 1rem;
+    margin-bottom: 1.4rem;
+    box-sizing: border-box;
+    border: 0.2rem solid #BE5B50;
+    background-color: #F0E5D7;
+    border-radius: 2rem;
+
+}
+
+.submit {
+    align-self: center;
+    border: 0.2em, solid, #BE5B50;
+    border-radius: 0.5rem;
+    background-color: #641B2E;
+    color: #FBDB93;
+    display: block;
+    margin: 0 auto;
+    margin-top: 0.7rem;
+    font-size: 1rem;
+    font-family: "Libre Baskerville", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.text {
+    color: #CE8D5A;
+}
