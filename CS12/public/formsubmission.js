@@ -1,42 +1,74 @@
-//Y-4L Final Project - Canape, Cascara, Casipit
-//This js file will validate the data given by the user via HTML.
 
-function submitFormData() {
-    // Get values by ID
-    let studentNum = document.getElementById('student_number').value;
-    let firstName = document.getElementById('first_name').value;
-    let lastName = document.getElementById('last_name').value;
-    let age = document.getElementById('age').value;
-    let email = document.getElementById('email').value;
+        function submitFormData(event) {
+            event.preventDefault(); // Stop form from reloading the page
+            
+            // Get values by ID
+            let studentNum = document.getElementById('student_number').value;
+            let firstName = document.getElementById('first_name').value;
+            let lastName = document.getElementById('last_name').value;
+            let age = document.getElementById('age').value;
+            let email = document.getElementById('email').value;
 
-    // 1. Validate Names
-    if (firstName.trim() === "" || lastName.trim() === "") {
-        alert("First Name and Last Name must not be empty.");
-        return false; // Stop the form from submitting
-    }
+            // 1. Validate Names
+            if (firstName.trim() === "" || lastName.trim() === "") {
+                alert("First Name and Last Name must not be empty.");
+                return false; 
+            }
 
-    // 2. Validate Age
-    // Check if empty, not a number, or less than 18
-    if (age === "" || isNaN(age) || parseInt(age) < 18) { 
-        alert("Age must be a number and 18 or above.");
-        return false; 
-    }
+            // 2. Validate Age
+            if (age === "" || isNaN(age) || parseInt(age) < 18) { 
+                alert("Age must be a number and 18 or above.");
+                return false; 
+            }
 
-    // 3. Validate Student Number (XXXX-XXXXX)
-    let studentNumPattern = /^\d{4}-\d{5}$/; 
-    if (!studentNumPattern.test(studentNum)) {
-        alert("Student Number must be in the format XXXX-XXXXX");
-        return false;
-    }
+            // 3. Validate Student Number (XXXX-XXXXX)
+            let studentNumPattern = /^\d{4}-\d{5}$/; 
+            if (!studentNumPattern.test(studentNum)) {
+                alert("Student Number must be in the format XXXX-XXXXX");
+                return false;
+            }
 
-    // 4. Validate Email
-    let emailPattern = /^[^@]+@[^@]+\.[^@]+$/;
-    if (!emailPattern.test(email)) {
-        alert("Please enter a valid email address.");
-        return false;
-    }
+            // 4. Validate Email
+            let emailPattern = /^[^@]+@[^@]+\.[^@]+$/;
+            if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address.");
+                return false;
+            }
 
-    // If code reaches here, all data is valid!
-    // Return true to allow the form to send data to Python
-    return true; 
-}
+            // If code reaches here, all data is valid!
+            let formData = new FormData();
+            // These keys ("studentno", "firstname") MUST match the Python arguments above
+            formData.append("studentno", studentNum);
+            formData.append("firstname", firstName);
+            formData.append("lastname", lastName);
+            formData.append("age", age);
+            formData.append("email", email);
+
+            fetch("/formsubmission", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                // This checks the "OK" string we return in Python
+                if (result === "OK") {
+                    alert("Submission Successful!");
+
+                    // Clear all input fields
+                    document.getElementById('student_number').value = "";
+                    document.getElementById('first_name').value = "";
+                    document.getElementById('last_name').value = "";
+                    document.getElementById('age').value = "";
+                    document.getElementById('email').value = "";
+                } else {
+                    alert("Something went wrong on the server.");
+                }
+            });
+            return false;
+        }
+
+        function viewAllData() {
+            // Note: Your group uses window.open which opens a new tab.
+            // If you want it in the same tab, use window.location.href instead.
+            window.location.href = "/viewAllData"; 
+        }
